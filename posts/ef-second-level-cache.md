@@ -1,4 +1,5 @@
-#Entity Framework Second Level Cache
+*Bu makaleye [Github](https://github.com/ilkayilknur/ilkayilknur-blogcontent/blob/master/posts/ef-second-level-cache.md) üzerinden katkıda bulunabilirsiniz.*
+
 Geliştirdiğimiz uygulamalar büyüdükçe ve karmaşıklaştıkca uygulamaların kullandıkları databaselere de erişimler  artmakta. Uygulamanın aldığı request sayısı da arttıkça bir noktadan sonra her işlem için database'e gitmek uygulamanın performansını da gözlü görülür bir biçimde etkilemekte. Özellikle uygulamanız içerisinde readonly tablelarınız varsa bu tablelara attığınız sorguların yanıtlarını cacheleyip bir sonra gelecek olan requestte database'e gitmeden cachelenmiş datadan işlem yapmak uygulamanızın performansını arttıracaktır.
 
 Entity Framework tarafındaki cache yapısına baktığımızda aslında DbContext içerisinde bir caching yapısı olduğunu görüyoruz. First level cache dediğimiz bu cache elinizde bulunan DbContext ile yaşıyor ve DbContext'i dispose ettiğinizde de elinizden gidiyor. Aslında bu bile bir noktaya kadar size performans açısından bir fayda sağlıyor. Ancak yukarıda bahsettiğimiz gibi database'den dönen sorgu sonucunu kendisinden sonra gelecek olan sorgularda da kullanabiliyor olmak daha da kritik bir öneme sahip. İşte bu noktada second-level cache devreye giriyor.
