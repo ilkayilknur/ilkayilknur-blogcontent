@@ -1,0 +1,104 @@
+# C# 6.0 String Interpolation #
+
+C# 6.0'ın en önde gelen teması bizim kod yazmamızı kolaylaştırmak ve mümkün olduğu kadar az hata yapmamızı sağlamak. **nameof operatorü**, **?. null propogation** operatorü gibi yenilikleri hep bu belirlenen temanın birer ürünü olarak düşünebiliriz.
+
+C# 6.0 içerisinde bizim kod yazmamızı kolaylaştıran en önemli yeniliklerden biri de string interpolation özelliği. String interpolationla beraber string içerisinde belirli yerlere istediğimiz değerleri çok daha kolay ve hata yapma olasılığımız daha az olacak şekilde yazabiliyoruz. 
+
+Örneğin aşağıdaki gibi bir kod olduğunu düşünelim.
+
+<pre style="font-family:Consolas;font-size:13;color:black;background:white;"><span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">Program</span>
+{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">void</span>&nbsp;Main(<span style="color:blue;">string</span>[]&nbsp;args)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">int</span>&nbsp;id&nbsp;=&nbsp;12;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;name&nbsp;=&nbsp;<span style="color:#a31515;">&quot;Mahmut&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;summary&nbsp;=&nbsp;<span style="color:blue;">string</span>.Format(<span style="color:#a31515;">&quot;Musteri&nbsp;adi:{0},Musteri&nbsp;Id:{1}&quot;</span>,&nbsp;name,&nbsp;id);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}</pre>
+
+C# 6.0 öncesinde yukarıda gördüğümüz şekilde bir string içerisindeki belirli alanlara string.format metodunu kullanarak istediğimiz değerleri basabiliyorduk. Buradaki en önemli sıkıntılardan biri değer basacağımız alanları numara ile belirlememiz. Yani eğer ileride bu string üzerinde bir değişiklik yapmamız gerekirse manuel bir şekilde string içerisine yeni bir alan ekleyeceğiz. Belki bundan sonra bazı alanları da string içerisinden kaldıracağız. Tabi insanlık hali bunları yaparken hata yapma olasılığımız da var. Tüm bu işlemler sonucunda belki aşağıdaki gibi hatalı bir kod yazma olasılığımız da yüksek.
+
+<pre style="font-family:Consolas;font-size:13;color:black;background:white;"><span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">Program</span>
+{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">void</span>&nbsp;Main(<span style="color:blue;">string</span>[]&nbsp;args)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">int</span>&nbsp;id&nbsp;=&nbsp;12;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;name&nbsp;=&nbsp;<span style="color:#a31515;">&quot;Mahmut&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;surname&nbsp;=&nbsp;<span style="color:#a31515;">&quot;Gates&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;summary&nbsp;=&nbsp;<span style="color:blue;">string</span>.Format(<span style="color:#a31515;">&quot;Musteri&nbsp;adi:{0},Musteri&nbsp;Soyadı:{2}&quot;</span>,&nbsp;name,&nbsp;surname);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}</pre>
+
+Sanıyorum ki çoğunuz hatayı zaten hemen farketmişsinizdir :) Ancak böyle bir durumla karşılaştığımızda bu hatayı maalesef derleme zamanında yakalamamız imkansız. İşte string interpolation bizim bu hatalara düşmemizi bir nebze olsun azaltıyor. Peki gelelim string interpolation'ı nasıl kullanacağımıza. 
+
+Öncelikle string interpolation özelliğini kullanacağımız string'in başına **$ işareti** koymamız gerekiyor. $ işareti koyduğumuzu anlayan compiler ve IDE yazdığımız string içerisinde bize gerekli olacak olan intellisense'i de sağlıyor.
+
+![](http://az718566.vo.msecnd.net/uploads/2015/12/interpolation_intellisense.png)
+
+String interpolationda daha önce string format içerisinde numara ile sıraladığımız alanlara artık doğrudan yazacağımız değerin kendisini yazıyoruz. Yani aşağıdaki 2 kullanım da aslında aynı çıktıyı veriyor.
+
+<pre style="font-family:Consolas;font-size:13;color:black;background:white;"><span style="color:blue;">string</span>&nbsp;name&nbsp;=&nbsp;<span style="color:#a31515;">&quot;Mahmut&quot;</span>;
+<span style="color:blue;">string</span>&nbsp;surname&nbsp;=&nbsp;<span style="color:#a31515;">&quot;Gates&quot;</span>;
+<span style="color:blue;">string</span>&nbsp;summary&nbsp;=&nbsp;<span style="color:blue;">string</span>.Format(<span style="color:#a31515;">&quot;Musteri&nbsp;adi:{0},Musteri&nbsp;Soyadı:{1}&quot;</span>,&nbsp;name,&nbsp;surname);
+<span style="color:blue;">string</span>&nbsp;summary2&nbsp;=&nbsp;<span style="color:#a31515;">$&quot;Musteri&nbsp;adi:</span>{name}<span style="color:#a31515;">,Musteri&nbsp;Soyadı:</span>{surname}<span style="color:#a31515;">&quot;</span>;</pre>
+
+Aynı zamanda çeşitli formatlamaları da aynı string.format içerisinde kullandığımız gibi string interpolation içerisinde de kullanmamız mümkün.
+
+<pre style="font-family:Consolas;font-size:13;color:black;background:white;"><span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">Program</span>
+{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">void</span>&nbsp;Main(<span style="color:blue;">string</span>[]&nbsp;args)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">double</span>&nbsp;d&nbsp;=&nbsp;10.3123113;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;s&nbsp;=&nbsp;<span style="color:#a31515;">$&quot;Value&nbsp;is&nbsp;</span>{d:<span style="color:#a31515;">00.00</span>}<span style="color:#a31515;">&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}</pre>
+
+## Arka Planda Neler Oluyor ? ##
+
+String interpolation özelliği aslında derleme zamanı çalışan bir özellik. Yani kodunuzun derlenmesi sırasında compiler sizin string interpolation kullandığınız yeri algılayıp oradaki kodu string.formatlı versiyona çeviriyor. Örnek olarak yukarıda yazdığımız kodu derleyip ILSpy ile açarsak aşağıdaki gibi bir kodla karşılaşıyoruz.
+
+<pre style="font-family:Consolas;font-size:13;color:black;background:white;"><span style="color:blue;">namespace</span>&nbsp;ConsoleApplication2
+{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">internal</span>&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">Program</span>
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">void</span>&nbsp;Main(<span style="color:blue;">string</span>[]&nbsp;args)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;arg&nbsp;=&nbsp;<span style="color:#a31515;">&quot;Mahmut&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;arg2&nbsp;=&nbsp;<span style="color:#a31515;">&quot;Gates&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;text&nbsp;=&nbsp;<span style="color:blue;">string</span>.Format(<span style="color:#a31515;">&quot;Musteri&nbsp;adi:{0},Musteri&nbsp;Soyadı:{1}&quot;</span>,&nbsp;arg,&nbsp;arg2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}</pre>
+
+Gördüğünüz gibi derleme zamanında string interpolation kullandığımız bölüm compiler tarafından değiştirilerek string.formatlı hale çevrildi.
+
+## string.format vs string interpolation ##
+
+String interpolationı şu ana kadar hep string.format ile karşılaştırdık. Peki string.format kullanımını tamamen bırakıyor muyuz diye aklınıza bir soru gelebilir. String.Format'ın en önemli kullanım alanlarından biri de localization senaryoları. string interpolation içerisinde şu anda localization mekanizmasını sağlayacak bir yapı bulunmuyor. Yani eğer localize içeriklerinizi C# dosyası dışında bir yerde(resource file vs..) saklıyorsanız string interpolation özelliğini kullanmanız şu an için mümkün değil. Burada yine string.format ile ilerlemek gerekiyor.
+
+String interpolationı kullanırken dikkat etmemiz gereken notalardan biri de string interpolationın Culture olarak CurrentCulture'ı kullanması. Eğer Invariant Culture kullanmak isterseniz küçük bir helper metot yazıp ilerleyebilirsiniz.
+
+<pre style="font-family:Consolas;font-size:13;color:black;background:white;"><span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">Program</span>
+{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">void</span>&nbsp;Main(<span style="color:blue;">string</span>[]&nbsp;args)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;name&nbsp;=&nbsp;<span style="color:#a31515;">&quot;Mahmut&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;surname&nbsp;=&nbsp;<span style="color:#a31515;">&quot;Gates&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;summary2&nbsp;=&nbsp;ToInvariant(<span style="color:#a31515;">$&quot;Musteri&nbsp;adi:</span>{name}<span style="color:#a31515;">,Musteri&nbsp;Soyadı:</span>{surname}<span style="color:#a31515;">&quot;</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">string</span>&nbsp;ToInvariant(<span style="color:#2b91af;">FormattableString</span>&nbsp;str)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;str.ToString(<span style="color:#2b91af;">CultureInfo</span>.InvariantCulture);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}</pre>
+
+Yukarıdaki koddan da anlayabileceğiniz üzere stringi interpolation kullanarak yarattığımız herhangi bir string FormattableString'e implicit olarak çevirebiliyoruz. FormattableString sınıfı içerisinde ise string interpolation kullanarak yarattığımız stringle ilgili çeşitli bilgiler yer alıyor. Bunlar string interpolation kullanarak yazığımız ifadenin string.format karşılığı ve string içerisinde belirli alanlara yerleştirdiğimiz değerler. C# Interactive Window içerisinde aşağıdaki gibi FormattableString içerisindeki değerleri görebilirsiniz.
+
+![](http://az718566.vo.msecnd.net/uploads/2015/12/FormattableString.PNG)
+
+Gördüğünüz gibi string interpolation belirli çerçevelerde de olsa bizim string yaratma işlemlerimizi bir nebze kolaylaştırıyor.
+
+Bir sonraki yazıda görüşmek üzere.
+
+
