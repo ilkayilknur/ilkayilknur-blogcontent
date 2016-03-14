@@ -8,7 +8,7 @@ Genelde syntax treeler ile çalışırken amacımız belirli bir tipte olan elem
 
 <pre style="font-family:Consolas;font-size:13;color:black;background:white;"><span style="color:blue;">public</span>&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">MethodWalker</span>&nbsp;:&nbsp;<span style="color:#2b91af;">CSharpSyntaxWalker</span><br/>{<br/> <br/>}</pre>
 
-Diyelim ki çalıştığınız şirkette kullandığınız bir kodlama standardı var ve bu standarda göre yazığınız metotların isimleri büyük harfle başlamalı. Bu nedenle syntax walker ile syntax tree içerisinde gezip metot tanımlamalarını bulup bu metotların isimlerini kontrol etmeliyiz.
+Diyelim ki çalıştığınız şirkette kullandığınız bir kodlama standardı var ve bu standarda göre yazdığınız metotların isimleri büyük harfle başlamalı. Bu nedenle syntax walker ile syntax tree içerisinde gezip metot tanımlamalarını bulup bu metotların isimlerini kontrol etmeliyiz.
 
 ![](http://az718566.vo.msecnd.net/uploads/2016/03/walker-override.gif)
 
