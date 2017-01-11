@@ -1,6 +1,6 @@
 # C# 7.0 - Tuples #
 
-C# 7.0 ile beraber gelecek olan önemli özelliklerden biri de Tuple'lar. Tuple tiplerine aslında çokta yabancı değiliz. Tuple tipiyle ilk olarak .NET Framework 4.0 ile tanışmıştık. Hani şu içerisinde **Item1, Item2, Item3** diye propertyler olan tipler :) Çoğu zaman aslında kullanmak istediğimiz ama bu property isimlerinden dolayı kullanma konusunda içimizin rahat olmadığı tipler :)
+C# 7.0 ile beraber gelecek olan önemli özelliklerden biri de Tuple'lar. Tuple tiplerine aslında çok da yabancı değiliz. Tuple tipiyle ilk olarak .NET Framework 4.0 ile tanışmıştık. Hani şu içerisinde **Item1, Item2, Item3** diye propertyler olan tipler :) Çoğu zaman aslında kullanmak istediğimiz ama bu property isimlerinden dolayı kullanma konusunda içimizin rahat olmadığı tipler :)
 
 Tupleların en önemli kullanım alanları aslında bir metottan birden fazla değer döndürmek zorunda kaldığımız durumlar. C# içerisinde aslında bir metottan birden fazla değer döndürmek istediğimizde out parametrelerini kullanabiliyoruz. 
 
@@ -26,7 +26,7 @@ Gördüğünüz gibi aslında oldukça basit. Anonymous object tanımlar gibi ta
 
 <pre style="font-family:Consolas;font-size:13;color:black;background:white;"><span style="color:blue;">static</span>(<span style="color:blue;">int</span>&nbsp;count,&nbsp;<span style="color:blue;">string</span>&nbsp;value)&nbsp;Foo()<br/>{<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;retVal&nbsp;=&nbsp;(count:&nbsp;1,&nbsp;value:&nbsp;<span style="color:#a31515;">&quot;Foo&quot;</span>);<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;retVal;<br/>}</pre>
 
-Parantez içerisinde sadece alanın adını ve değerini yazdığınızda da compiler arka planda aynı anonymous objectlerde olduğu gibi alanın tipini kendisi buluyor ve ona uygun tuple tipini yaratıyor. Ayrıca yine tipin compiler tarafından bilindiği durumlarda da tuple'lardaki field adlarının pekte önemi olmuyor. Compiler arka planda ilgili çevrimi kendisi yapıyor.
+Parantez içerisinde sadece alanın adını ve değerini yazdığınızda da compiler arka planda aynı anonymous objectlerde olduğu gibi alanın tipini kendisi buluyor ve ona uygun tuple tipini yaratıyor. Ayrıca yine tipin compiler tarafından bilindiği durumlarda da tuple'lardaki field adlarının pek de önemi olmuyor. Compiler arka planda ilgili çevrimi kendisi yapıyor.
 
 <pre style="font-family:Consolas;font-size:13;color:black;background:white;"><span style="color:blue;">static</span>&nbsp;(<span style="color:blue;">int</span>&nbsp;count,&nbsp;<span style="color:blue;">string</span>&nbsp;value)&nbsp;Foo()<br/>{<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;retVal&nbsp;=&nbsp;(c:&nbsp;1,&nbsp;v:&nbsp;<span style="color:#a31515;">&quot;Foo&quot;</span>);<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;retVal;<br/>}</pre>
 
