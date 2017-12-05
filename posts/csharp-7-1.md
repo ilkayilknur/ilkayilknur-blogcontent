@@ -25,25 +25,11 @@ C# içerisinde bir tipin default değerini alabilmek için default expressionlar
 
 Örneğin,
 
-<pre style="font-family:Consolas;font-size:13;color:black;background:white;"><span style="color:blue;">var</span>&nbsp;x&nbsp;=&nbsp;<span style="color:blue;">default</span>(<span style="color:blue;">string</span>);
-<span style="color:blue;">var</span>&nbsp;y&nbsp;=&nbsp;<span style="color:blue;">default</span>(<span style="color:#2b91af;">Func</span>&lt;<span style="color:blue;">string</span>,&nbsp;<span style="color:blue;">int</span>,&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:blue;">string</span>&gt;&gt;);&nbsp;<span style="color:green;">//&nbsp;&lt;----&nbsp;:(</span></pre>
+<pre style="font-family:Consolas;font-size:13;color:black;background:white;"><span style="color:blue;">var</span>&nbsp;x&nbsp;=&nbsp;<span style="color:blue;">default</span>(<span style="color:blue;">string</span>);<br/><span style="color:blue;">var</span>&nbsp;y&nbsp;=&nbsp;<span style="color:blue;">default</span>(<span style="color:#2b91af;">Func</span>&lt;<span style="color:blue;">string</span>,&nbsp;<span style="color:blue;">int</span>,&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:blue;">string</span>&gt;&gt;);&nbsp;<span style="color:green;">//&nbsp;&lt;----&nbsp;:(</span></pre>
 
 Sadece string gibi tiplerin default değerini alırken yazım olarak çok zorlanmasak da özellikle kompleks generic tipler olduğunda onları yazmak bazen zor olabiliyordu. Yukarıda verdiğim ikinci  örnek bu zorluğa ufak bir örnek olabilir. C# 7.1 ile beraber compiler tipini tahmin edebilidiği durumlarda artık sizin default a ekstra bir tip vermenizi zorunlu kılmıyor. Bu nedenle doğrudan default literal'i kullanabiliyorsunuz. 1-2 kullanım yaparsak örnek olarak...
 
-<pre style="font-family:Consolas;font-size:13;color:black;background:white;"><span style="color:blue;">static</span>&nbsp;<span style="color:blue;">async</span>&nbsp;<span style="color:#2b91af;">Task</span>&nbsp;Main(<span style="color:blue;">string</span>[]&nbsp;args)
-{
-&nbsp;&nbsp;&nbsp;&nbsp;Foo(<span style="color:blue;">default</span>,&nbsp;12);
-}
- 
-<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">int</span>&nbsp;Foo()
-{
-&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:blue;">default</span>;
-}
- 
-<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">void</span>&nbsp;Foo(<span style="color:blue;">string</span>&nbsp;k,&nbsp;<span style="color:blue;">int</span>&nbsp;y)
-{
- 
-}</pre>
+<pre style="font-family:Consolas;font-size:13;color:black;background:white;"><span style="color:blue;">static</span>&nbsp;<span style="color:blue;">async</span>&nbsp;<span style="color:#2b91af;">Task</span>&nbsp;Main(<span style="color:blue;">string</span>[]&nbsp;args)<br/>{<br/>&nbsp;&nbsp;&nbsp;&nbsp;Foo(<span style="color:blue;">default</span>,&nbsp;12);<br/>}<br/> <br/><span style="color:blue;">static</span>&nbsp;<span style="color:blue;">int</span>&nbsp;Foo()<br/>{<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">return</span>&nbsp;<span style="color:blue;">default</span>;<br/>}<br/> <br/><span style="color:blue;">static</span>&nbsp;<span style="color:blue;">void</span>&nbsp;Foo(<span style="color:blue;">string</span>&nbsp;k,&nbsp;<span style="color:blue;">int</span>&nbsp;y)<br/>{<br/> <br/>}</pre>
 
  Yukarıda görüldüğü gibi metotların alacakları parametrelerde, döndüreceği değerlerde ve daha başka pek çok noktada sadece default literalini kullanabiliriz. Burada kritik nokta compilerın default değerini alacağı tipi tahmin edebilmesi. Tahmin edemediği durumlarda zaten sizden tipi ayrıca belirtmenizi isteyecektir. 
 
@@ -52,17 +38,11 @@ Sadece string gibi tiplerin default değerini alırken yazım olarak çok zorlan
 C# 7.0 ile beraber gelen benim en favori özelliğim tuplelar. C# 7.1 ile beraber de tuple içerisindeki fieldların isimlendirilmesi ile ilgili ufak ama güzel bir yenilik geliyor. Tuple kullanımında tuple yaratırken fieldlara dışarıdan isim verebiliyorduk. 
 
 Örneğin,
-<pre style="font-family:Consolas;font-size:13;color:black;background:white;"><span style="color:blue;">var</span>&nbsp;count&nbsp;=&nbsp;5;
-<span style="color:blue;">var</span>&nbsp;sum&nbsp;=&nbsp;50;
-<span style="color:blue;">var</span>&nbsp;retVal&nbsp;=&nbsp;(sum:&nbsp;sum,&nbsp;count:&nbsp;count);</pre>
+<pre style="font-family:Consolas;font-size:13;color:black;background:white;"><span style="color:blue;">var</span>&nbsp;count&nbsp;=&nbsp;5;<br/><span style="color:blue;">var</span>&nbsp;sum&nbsp;=&nbsp;50;<br/><span style="color:blue;">var</span>&nbsp;retVal&nbsp;=&nbsp;(sum:&nbsp;sum,&nbsp;count:&nbsp;count);</pre>
 
 Bu şekilde kullanımlarda tuple içerisine koyduğumuz değişkenlerin isimleriyle tuple içerisindeki fieldların ismini büyük oranda aynı oluyor. Dolayısıyla aslında bunu biz belirtmesek de compiler bunu arka planda kendisi yapsa nasıl olur :) C# 7.1 ile artık bu mümkün
 
-<pre style="font-family:Consolas;font-size:13;color:black;background:white;"><span style="color:blue;">var</span>&nbsp;count&nbsp;=&nbsp;5;
-<span style="color:blue;">var</span>&nbsp;sum&nbsp;=&nbsp;50;
-<span style="color:blue;">var</span>&nbsp;retVal&nbsp;=&nbsp;(sum,&nbsp;count);
- 
-<span style="color:#2b91af;">Console</span>.WriteLine(<span style="color:#a31515;">$&quot;Count:</span>{retVal.count}<span style="color:#a31515;">&nbsp;,&nbsp;Sum:</span>{retVal.sum}<span style="color:#a31515;">&quot;</span>);</pre>
+<pre style="font-family:Consolas;font-size:13;color:black;background:white;"><span style="color:blue;">var</span>&nbsp;count&nbsp;=&nbsp;5;<br/><span style="color:blue;">var</span>&nbsp;sum&nbsp;=&nbsp;50;<br/><span style="color:blue;">var</span>&nbsp;retVal&nbsp;=&nbsp;(sum,&nbsp;count);<br/> <br/><span style="color:#2b91af;">Console</span>.WriteLine(<span style="color:#a31515;">$&quot;Count:</span>{retVal.count}<span style="color:#a31515;">&nbsp;,&nbsp;Sum:</span>{retVal.sum}<span style="color:#a31515;">&quot;</span>);</pre>
 
 Yukarıda gördüğünüz gibi tuple yaratırken içerisine verdiğimiz değişkenlerin isimleriyle aynı isimde fieldlar yaratılıyor. 
 
