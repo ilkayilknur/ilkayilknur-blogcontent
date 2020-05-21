@@ -11,7 +11,7 @@ Aslında bizim uygulamalarımız içerisinde yarattığımız nesnelerin büyük
 <pre style="font-family:Consolas;color:black;background:white;"><span style="color:blue;">var</span>&nbsp;array&nbsp;=&nbsp;<span style="color:#2b91af;">ArrayPool</span>&lt;<span style="color:blue;">int</span>&gt;.Shared.Rent(10);
 </pre>
 
-Return methodu parametre olarak istediğiniz arrayin minimum kaç elemanlı olacağını sizden istiyor. Yani buradan dönecek olan arrayin boyutu sizin verdiğiniz değerden büyük olabilir. Bu nedenle kodunuzda buna göre değişiklikler yapmanız gerekebilir. Return metodu ise biri opsiyonel olmak üzere 2 parametre almakta. 
+Rent methodu parametre olarak istediğiniz arrayin minimum kaç elemanlı olacağını sizden istiyor. Yani buradan dönecek olan arrayin boyutu sizin verdiğiniz değerden büyük olabilir. Bu nedenle kodunuzda buna göre değişiklikler yapmanız gerekebilir. Return metodu ise biri opsiyonel olmak üzere 2 parametre almakta. 
 
 <pre style="font-family:Consolas;color:black;background:white;"><span style="color:#2b91af;">ArrayPool</span>&lt;<span style="color:blue;">int</span>&gt;.Shared.Return(array,&nbsp;clearArray:&nbsp;<span style="color:blue;">false</span>);
 </pre>
