@@ -144,7 +144,7 @@ Compiler tarafından arka planda yaratılan sınıfa baktığımızda compilerı
 
 Kodu çalıştırırsak
 
-![](https://ilkayblog.blob.core.windows.net/uploads/2020/08/27/record-equality.png)
+![](https://az718566.vo.msecnd.net/uploads/2020/08/27/record-equality.png)
 
 ### with Expressions
 
@@ -396,3 +396,5 @@ Peki yukarıdaki gibi bir inheritance durumunda eşitlik karşılaştırması na
 
 
 Yazının başında da değindiğim üzere daha önceden C# içerisinde immutable data ile çalışmayı kolaylaştıracak bazı yenilikler gelse de programlama dili içerisinde tam bir destek söz konusu değildi. Bu versiyonla beraber recordlar dil içerisine eklenmekte ve immutable datayla çalışmak büyük  oranda kolaylaşmakta. Hala daha bazı eksikliklerin olduğunu söyleyebiliriz. İlerleyen versiyonlarda bu eksikliklerde mutlaka giderilecektir. C# 9.0 ile beraber gelen işimizi kolaylaştıracak diğer yenilikler de bir sonraki makalenin konusu olacak :)
+
+Kaynak : <a href="https://devblogs.microsoft.com/dotnet/welcome-to-c-9-0/" target="_blank">https://devblogs.microsoft.com/dotnet/welcome-to-c-9-0/</a>
