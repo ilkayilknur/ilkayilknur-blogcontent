@@ -204,3 +204,5 @@ C# 9.0 ile beraber gelen diğer yeniliklerin listesi ise şu şekilde.
 * native-sized signed ve unsigned integer tipleri için dil desteği geliyor. <a href="https://github.com/dotnet/csharplang/blob/master/proposals/csharp-9.0/native-integers.md" target="_blank">https://github.com/dotnet/csharplang/blob/master/proposals/csharp-9.0/native-integers.md</a>
 
 Bir sonraki yazıda görüşmek üzere,
+
+Kaynak : <a href="https://github.com/dotnet/csharplang/tree/master/proposals/csharp-9.0" target="_blank">https://github.com/dotnet/csharplang/tree/master/proposals/csharp-9.0</a>
