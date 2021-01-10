@@ -1,4 +1,4 @@
-Bir süre önce Twitter ve LinkedIn hesabımda <a href="https://marketplace.visualstudio.com/items?itemName=MukulSabharwal.ClrHeapAllocationAnalyzer" target="_blank">CLR Heap Allocation Analyzer</a> isimli bir Visual Studio extensionından bahsetmiştim. Bu extensionı kullanan çoğu kişi farkında olmadan yaptığı bazı allocationlardan kolayca kurtulabilirken özellikle tek bir noktada takılıp kalabiliyorlar. O da lambda expresionların neden olduğu allocationlar. Özellikle lambda expressionların neden olduğu allocationlarla ilgili ben de zaman zaman sorular alıyorum. Bu nedenle bu yazıda bu sorulara toplu cevap vermeyi de planlıyorum.
+Bir süre önce Twitter ve LinkedIn hesabımda <a href="https://marketplace.visualstudio.com/items?itemName=MukulSabharwal.ClrHeapAllocationAnalyzer" target="_blank">CLR Heap Allocation Analyzer</a> isimli bir Visual Studio extensionından bahsetmiştim. Bu extensionı kullanan çoğu kişi farkında olmadan yaptığı bazı allocationlardan kolayca kurtulabilirken özellikle tek bir noktada takılıp kalabiliyorlar. O da lambda expresionların neden olduğu allocationlar. Oldukça sinsice gerçekleşen bir allocation olduğu için farkedilmesi de kolay değil.
 
 Şimdi diyelim ki aşağıdaki gibi bir senaryomuz var.
 
@@ -47,7 +47,7 @@ internal class Test
     }
 }
 ```
- Compiler arka planda genel adı `closure` olan yeni bir sınıf tanımlayıp yazdığımız kodu bu sınıfa metot olarak eklerken dışarıdan eriştiğimiz değişkeni de bir field olarak tanımlıyor. Main metodu içerisinde de bu sınıftan bir nesne yaratıp fielda değeri atayıp sonrasında da bir `Action` yaratıyor. Bu metodu eğer biz bir for döngüsü içerisinde çağırsaydık kullandığımız parametrenin yerine göre aslında döngünün çalışma sayısı kadar nesne yaratılmış olacak.
+Lambda expressionları aslında runtime tarafında bilinen bir şey olmadığı için bir C# özelliği olarak kod derlenirken çeşitli çevrimler yapılıyor. Compiler arka planda genel adı `closure` olan yeni bir sınıf tanımlayıp yazdığımız kodu bu sınıfa metot olarak eklerken dışarıdan eriştiğimiz değişkeni de bir field olarak tanımlıyor. Main metodu içerisinde de bu sınıftan bir nesne yaratıp fielda değeri atayıp sonrasında da bir `Action` yaratıyor. Bu metodu eğer biz bir for döngüsü içerisinde çağırsaydık kullandığımız parametrenin yerine göre aslında döngünün çalışma sayısı kadar nesne yaratılma durumu olabilirdi. Bu da kısa süreli yaşayan çok fazla nesne yaratılmasına neden olarak GC üzerinde ekstra yük oluşturabilirdi. Bu durum yazdığımız normal uygulamalar için çok fazla sorun teşkil etmese de performansın kritik olduğu senaryolarda, çok fazla yük alan yerlerde soruna neden olabilir.
 
  Peki dışarıdan bir field kullanmadığımız senaryoyu düşünelim. O zaman bakalım nasıl olacak.
 
@@ -177,7 +177,7 @@ public class Foo
 }
 ```
 
-Bu şekilde bir kullanımla en azından developerların bir tane tipi lambda expression içerisinde kullanmasını sağlamış oluyoruz. Böylece belki de çoğu senaryoda ekstra allocationlardan kurtulmuş oluruz. Bu bahsettiğim kullanım şu an .NET içerisindeki performans kritik olan metotlarda da bulunmakta. Örneğin, daha önce bahsettiğim `string.Create` <a href="https://ilkayilknur.com/string-create-metodu-nasil-kullanilir" target="_blank">metodunda</a> da bu şekilde bir implementasyon bulunmakta. 
+Bu şekilde bir kullanımla en azından developerların bir tane tipi lambda expression içerisinde kullanmasını sağlamış oluyoruz. Böylece belki de çoğu senaryoda ekstra allocationlardan kurtulmuş oluyoruz. Bu bahsettiğim kullanım şu an .NET içerisindeki performans kritik olan metotlarda da bulunmakta. Örneğin, daha önce bahsettiğim `string.Create` <a href="https://ilkayilknur.com/string-create-metodu-nasil-kullanilir" target="_blank">metodunda</a> da bu şekilde bir implementasyon bulunmakta. 
 
 Lambda expression kullandığımız yerlerde bizler bazı şeyleri farkında olarak dışarıdaki variablelara erişmekten kaçınabiliriz. Ancak bizden sonra kodu değiştirecek olan kişinin bu gibi şeyler gözünden kaçabilir. Bunun için de C# 9.0 ile beraber gelen static lambda özelliğini kullanabiliriz. 
 
@@ -194,6 +194,6 @@ Burada lambdanın başına static koyarak dışarından hiçbir değişkene eri�
 
 ![static-lambda-error](https://az718566.vo.msecnd.net/uploads/2020/12/19/static-lambda.png)
 
-Bu yazıda bana gelen soruların büyük bir kısmına bu yazıyla cevap vermiş oldum. Bazen bazı kolaylıklara sahip olmak için burada da gördüğümüz üzere bazı bedeller ödememiz gerekiyor. Ödemek istemezsek de en basit çözüm yardımımıza yetişiyor. 
+Bu yazıda lambda expressionların neden olduğu sinsi allocationları kısaca inceledik. Bu yazıdan çıkan sonuç tabi ki de lambda expression kullanmayalım olmamalı :) Bu allocationları farkında olarak gerektiği durumlarda daha optimize kullanmak, bazı durumlara göre belki de hiç kullanmamak gerekebilir. Duruma göre değerlendirip kararlar alınabilir. Bazen bazı kolaylıklara sahip olmak için burada da gördüğümüz üzere bazı bedeller ödememiz gerekiyor. Ödemek istemezsek de en basit çözüm yardımımıza yetişiyor. 
 
 Bir sonraki yazıda görüşmek üzere,
